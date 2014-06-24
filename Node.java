@@ -25,9 +25,13 @@ public abstract class Node {
     output.connectTo(input);
   }
   
-  public void execute() {
-    for (Input input : mInputs.values()) {
-      
+  public abstract void execute();
+  
+  public final void postOutputs() {
+    for (Output output : mOutputs.values()) {
+      for (Input connection : output.getConnections()) {
+        connection.setValue(output.getValue());
+      }
     }
   }
 }
