@@ -25,4 +25,8 @@ public class Input {
   public void setValue(Object value) {
     mValue = value;
   }
+  
+  public boolean isReady() {
+    return mValue != null;
+  }
 }
