@@ -3,6 +3,7 @@ import java.utils.Map;
 
 public class Output {
 
+  private Node mParent;
   private String mName;
   private Class mDataType;
   private Map<String, Input> mConnections;
@@ -11,6 +12,10 @@ public class Output {
     mName = name;
     mDataType = dataType;
     mConnections = new HashMap<String, Input>();
+  }
+  
+  public Node getParent() {
+    return mParent;
   }
   
   public String getName() {
