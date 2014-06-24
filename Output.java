@@ -34,7 +34,7 @@ public class Output {
     }
   }
   
-  public void addConnection(Input input) {
+  public void connectTo(Input input) {
     mConnections.put(input.getName(), input);
   }
 }
