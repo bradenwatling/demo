@@ -1,11 +1,18 @@
-public class NodeConnection {
-  private Data mSource;
-  private Data mTarget;
+public class Input {
   
-  public NodeConnection(Data source, Data target) {
-    mSource = source;
-    mTarget = target;
+  private String mName;
+  private Class mDataType;
+  
+  public Input(String name, Class dataType) {
+    mName = name;
+    mDataType = dataType;
   }
   
+  public String getName() {
+    return mName;
+  }
   
+  public Class getDataType() {
+    return mDataType;
+  }
 }
