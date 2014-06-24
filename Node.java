@@ -25,13 +25,22 @@ public abstract class Node {
     output.connectTo(input);
   }
   
-  public abstract void execute();
-  
   public final void postOutputs() {
     for (Output output : mOutputs.values()) {
-      for (Input connection : output.getConnections()) {
-        connection.setValue(output.getValue());
-      }
+      output.postValue();
     }
   }
+  
+  public boolean isReady() {
+    boolean ready = true;
+    for (Input input : mInputs.values()) {
+      if (!input.isReady()) {
+        ready = false;
+      }
+    }
+    
+    return ready;
+  }
+  
+  public abstract void execute();
 }
