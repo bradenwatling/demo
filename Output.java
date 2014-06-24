@@ -28,8 +28,10 @@ public class Output {
     return mDataType;
   }
   
-  public void setValue(Object value) {
-    mValue = value;
+  public void postValue() {
+    for (Input connection : mConnections) {
+      connection.setValue(mValue);
+    }
   }
   
   public void addConnection(Input input) {
