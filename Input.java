@@ -1,11 +1,16 @@
 public class Input {
   
+  private Node mParent;
   private String mName;
   private Class mDataType;
   
   public Input(String name, Class dataType) {
     mName = name;
     mDataType = dataType;
+  }
+  
+  public Node getParent() {
+    return mParent;
   }
   
   public String getName() {
