@@ -6,6 +6,8 @@ public class Output {
   private Node mParent;
   private String mName;
   private Class mDataType;
+  private Object mValue;
+  
   private Map<String, Input> mConnections;
   
   public Output(String name, Class dataType) {
@@ -24,6 +26,10 @@ public class Output {
   
   public Class getDataType() {
     return mDataType;
+  }
+  
+  public void setValue(Object value) {
+    mValue = value;
   }
   
   public void addConnection(Input input) {
