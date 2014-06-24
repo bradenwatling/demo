@@ -6,8 +6,8 @@ public abstract class Node {
   protected Map<String, Output> mOutputs;
 
   public Node() {
-    mInputs = new HashMap<Input>();
-    mOutputs = new HashMap<Output>();
+    mInputs = new HashMap<String, Input>();
+    mOutputs = new HashMap<String, Output>();
   }
   
   protected void addInput(String name, Class type) {
