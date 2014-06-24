@@ -1,46 +1,58 @@
-import java.util.List;
+package nodes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Node {
 
-  protected Map<String, Input> mInputs;
-  protected Map<String, Output> mOutputs;
+    protected Map<String, Input> mInputs;
+    protected Map<String, Output> mOutputs;
 
-  public Node() {
-    mInputs = new HashMap<String, Input>();
-    mOutputs = new HashMap<String, Output>();
-  }
-  
-  protected final void addInput(String name, Class type) {
-    mInputs.put(name, new Input(name, type));
-  }
-  
-  protected final void addOutput(String name, Class type) {
-    mOutputs.put(name, new Output(name, type));
-  }
-  
-  public final void makeConnection(String outputName, String inputName) {
-    Input input = mInputs.get(inputName);
-    Output output = mOutputs.get(outputName);
-    
-    output.connectTo(input);
-  }
-  
-  public final void postOutputs() {
-    for (Output output : mOutputs.values()) {
-      output.postValue();
+    public Node() {
+        mInputs = new HashMap<>();
+        mOutputs = new HashMap<>();
     }
-  }
-  
-  public boolean isReady() {
-    boolean ready = true;
-    for (Input input : mInputs.values()) {
-      if (!input.isReady()) {
-        ready = false;
-      }
+
+    protected final Input addInput(String name, Class type) {
+        Input ret = new Input(this, name, type);
+        mInputs.put(name, ret);
+        return ret;
+    }
+
+    protected final Output addOutput(String name, Class type) {
+        Output ret = new Output(this, name, type);
+        mOutputs.put(name, ret);
+        return ret;
+    }
+
+    public final void postOutputs() {
+        for (Output output : mOutputs.values()) {
+            output.postValue();
+        }
+    }
+
+    public boolean isReady() {
+        boolean ready = true;
+        for (Input input : mInputs.values()) {
+            if (!input.isReady()) {
+                ready = false;
+            }
+        }
+
+        return ready;
     }
     
-    return ready;
-  }
-  
-  public abstract void execute();
+    public final Input getInput(String name) {
+        return mInputs.get(name);
+    }
+    
+    public final Output getOutput(String name) {
+        return mOutputs.get(name);
+    }
+    
+    public final void connect(Node node, String output, String input) {
+        mOutputs.get(output).connectTo(node.getInput(input));
+    }
+
+    public abstract void execute();
 }
