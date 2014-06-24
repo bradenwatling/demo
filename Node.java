@@ -10,11 +10,11 @@ public abstract class Node {
     mOutputs = new HashMap<String, Output>();
   }
   
-  protected void addInput(String name, Class type) {
+  protected final void addInput(String name, Class type) {
     mInputs.put(name, new Input(name, type));
   }
   
-  protected void addOutput(String name, Class type) {
+  protected final void addOutput(String name, Class type) {
     mOutputs.put(name, new Output(name, type));
   }
   
