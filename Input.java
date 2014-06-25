@@ -1,4 +1,6 @@
-package nodes;
+package bcwatling.demo;
+
+import bcwatling.demo.node.Node;
 
 public class Input {
 

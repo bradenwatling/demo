@@ -1,7 +1,9 @@
-package nodes;
+package bcwatling.demo;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import bcwatling.demo.node.Node;
 
 public class Output {
 
@@ -15,7 +17,7 @@ public class Output {
         mParent = parent;
         mName = name;
         mDataType = dataType;
-        mConnections = new HashMap<>();
+        mConnections = new HashMap<String, Input>();
     }
 
     public Node getParent() {
