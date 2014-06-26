@@ -1,48 +1,43 @@
 package bcwatling.demo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import bcwatling.demo.node.Node;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Output {
+public class Output extends NodePoint {
 
-    private Node mParent;
-    private String mName;
-    private Class mDataType;
     private Object mValue;
-    private Map<String, Input> mConnections;
+    private List<Input> mConnections;
 
     public Output(Node parent, String name, Class dataType) {
-        mParent = parent;
-        mName = name;
-        mDataType = dataType;
-        mConnections = new HashMap<String, Input>();
+        super(parent, name, dataType);
+        mConnections = new ArrayList<Input>();
     }
-
-    public Node getParent() {
-        return mParent;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public Class getDataType() {
-        return mDataType;
-    }
-
+    
     public void setValue(Object value) {
-        mValue = value;
+        if (!mDataType.isAssignableFrom(value.getClass())) {
+            throw new ClassCastException();
+        } else {
+            mValue = value;
+        }
     }
 
     public void postValue() {
-        for (Input connection : mConnections.values()) {
+        for (Input connection : mConnections) {
             connection.setValue(mValue);
         }
     }
 
     public void connectTo(Input input) {
-        mConnections.put(input.getName(), input);
+        if (mDataType != input.getDataType()) {
+            throw new ClassCastException();
+        } else {
+            mConnections.add(input);
+        }
+    }
+
+    @Override
+    public boolean isReady() {
+        return mValue != null;
     }
 }

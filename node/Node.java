@@ -1,26 +1,33 @@
 package bcwatling.demo.node;
 
-import android.app.Activity;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+//import android.app.Activity;
+//import android.content.Context;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.widget.ListView;
+//import android.widget.RelativeLayout;
+//import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bcwatling.demo.NodeAdapter;
+//import bcwatling.demo.NodeAdapter;
 import bcwatling.demo.Constant;
+import bcwatling.demo.Constant.EditText;
 import bcwatling.demo.Input;
 import bcwatling.demo.Output;
-import bcwatling.demo.R;
+//import bcwatling.demo.R;
 
 public abstract class Node {
+    
+    public static class View {
+        public EditText findViewById(int id) {
+            return new EditText();
+        }
+    }
 
     private String mName;
-    private View mNodeView;
+    private View mNodeView = new View();
     protected List<Input> mInputs;
     protected List<Output> mOutputs;
     protected List<Constant> mConstants;
@@ -115,32 +122,38 @@ public abstract class Node {
         }
     }
 
-    public final void connect(Node node, String output, String input) {
-        getOutput(output).connectTo(node.getInput(input));
+    public final void connect(Node node, String outputName, String inputName) {
+        Output output = getOutput(outputName);
+        Input input = node.getInput(inputName);
+        if (output.getDataType() != input.getDataType()) {
+            throw new ClassCastException();
+        } else {
+            output.connectTo(input);
+        }
     }
 
-    public final View inflate(Activity activity) {
-        RelativeLayout parent = (RelativeLayout) activity.findViewById(R.id.node_space);
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // Inflate the node view
-        mNodeView = inflater.inflate(R.layout.node_view, parent, false);
-
-        ((TextView) mNodeView.findViewById(R.id.node_name)).setText(mName);
-
-        ListView inputs = (ListView) mNodeView.findViewById(R.id.inputs);
-        inputs.setAdapter(new NodeAdapter(activity, R.layout.input_item, mInputs));
-
-        ListView outputs = (ListView) mNodeView.findViewById(R.id.outputs);
-        outputs.setAdapter(new NodeAdapter(activity, R.layout.output_item, mOutputs));
-
-        ListView constants = (ListView) mNodeView.findViewById(R.id.constants);
-        constants.setAdapter(new NodeAdapter(activity, R.layout.constant_item, mConstants));
-
-        parent.addView(mNodeView);
-
-        return mNodeView;
-    }
+//    public final View inflate(Activity activity) {
+//        RelativeLayout parent = (RelativeLayout) activity.findViewById(R.id.node_space);
+//        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//        // Inflate the node view
+//        mNodeView = inflater.inflate(R.layout.node_view, parent, false);
+//
+//        ((TextView) mNodeView.findViewById(R.id.node_name)).setText(mName);
+//
+//        ListView inputs = (ListView) mNodeView.findViewById(R.id.inputs);
+//        inputs.setAdapter(new NodeAdapter(activity, R.layout.input_item, mInputs));
+//
+//        ListView outputs = (ListView) mNodeView.findViewById(R.id.outputs);
+//        outputs.setAdapter(new NodeAdapter(activity, R.layout.output_item, mOutputs));
+//
+//        ListView constants = (ListView) mNodeView.findViewById(R.id.constants);
+//        constants.setAdapter(new NodeAdapter(activity, R.layout.constant_item, mConstants));
+//
+//        parent.addView(mNodeView);
+//
+//        return mNodeView;
+//    }
 
     public abstract void execute();
 }

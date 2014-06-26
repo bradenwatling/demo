@@ -8,7 +8,6 @@ public class TestNode extends Node {
     public TestNode() {
         super("Test");
         addInput("test", Integer.class);
-        addOutput("rawr", Integer.class);
     }
 
     @Override

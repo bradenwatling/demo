@@ -1,35 +1,33 @@
 package bcwatling.demo;
 
-import android.widget.EditText;
+//import android.widget.EditText;
 
 import bcwatling.demo.node.Node;
 
-public class Constant {
+public class Constant extends NodePoint {
 
-    private Node mParent;
-    private String mName;
-    private Class mDataType;
-
+    // TODO: get rid of this
+    public static class EditText {
+        public String getText() {
+            return "";
+        }
+    }
+    
+    class R {
+        class id {
+            public static final int constant_value = 0;
+        }
+    }
+    
+    private Object mValue;
+    
     public Constant(Node parent, String name, Class dataType) {
-        mParent = parent;
-        mName = name;
-        mDataType = dataType;
-    }
-
-    public Node getParent() {
-        return mParent;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public Class getDataType() {
-        return mDataType;
+        super(parent, name, dataType);
     }
 
     public Object getValue() {
-        Object value = null;
+        return mValue;
+        /*Object value = null;
         EditText editText = getEditText();
         String text = editText.getText().toString();
 
@@ -39,12 +37,17 @@ public class Constant {
             value = text;
         }
 
-        return value;
+        return value;*/
+    }
+    
+    public void setValue(Object value) {
+        mValue = value;
     }
 
     public boolean isReady() {
-        EditText editText = getEditText();
-        return editText != null && editText.getText() != null && !"".equals(editText.getText().toString());
+        return mValue != null && !"".equals(mValue);
+//        EditText editText = getEditText();
+//        return editText != null && editText.getText() != null && !"".equals(editText.getText().toString());
     }
 
     private EditText getEditText() {

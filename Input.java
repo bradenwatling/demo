@@ -2,29 +2,12 @@ package bcwatling.demo;
 
 import bcwatling.demo.node.Node;
 
-public class Input {
-
-    private Node mParent;
-    private String mName;
-    private Class mDataType;
+public class Input extends NodePoint {
+    
     private Object mValue;
 
     public Input(Node parent, String name, Class dataType) {
-        mParent = parent;
-        mName = name;
-        mDataType = dataType;
-    }
-
-    public Node getParent() {
-        return mParent;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public Class getDataType() {
-        return mDataType;
+        super(parent, name, dataType);
     }
 
     public Object getValue() {
@@ -32,7 +15,11 @@ public class Input {
     }
 
     public void setValue(Object value) {
-        mValue = value;
+        if (!mDataType.isAssignableFrom(value.getClass())) {
+            throw new ClassCastException();
+        } else {
+            mValue = value;
+        }
     }
 
     public boolean isReady() {
