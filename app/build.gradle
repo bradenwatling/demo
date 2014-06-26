@@ -1,0 +1,51 @@
+apply plugin: 'android'
+
+sourceSets {
+    testLocal {
+        java.srcDirs = ['src/androidTest', 'libs']
+        resources.srcDir file('src/androidTest/resources')
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId "bcwatling.demo"
+        minSdkVersion 15
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testLocalCompile 'junit:junit:4.11'
+
+    androidTestCompile 'junit:junit:4.11'
+}
+
+task localTest(type: Test, dependsOn: assemble) {
+    testClassesDir = sourceSets.testLocal.output.classesDir
+
+    android.sourceSets.main.java.srcDirs.each { dir ->;
+        def buildDir = dir.getAbsolutePath().split('/')
+        buildDir =  (buildDir[0..(buildDir.length - 4)] + ['build', 'intermediates', 'classes', 'debug']).join('/')
+
+        sourceSets.testLocal.compileClasspath += files(buildDir)
+        sourceSets.testLocal.runtimeClasspath += files(buildDir)
+    }
+
+    classpath = sourceSets.testLocal.runtimeClasspath
+}
+
+check.dependsOn localTest
